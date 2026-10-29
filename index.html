@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      // Ensure window.fetch has a setter so extensions/test runners don't crash with "Cannot set property fetch which has only a getter"
+      (function() {
+        try {
+          var realFetch = window.fetch ? window.fetch.bind(window) : undefined;
+          var _fetch = realFetch;
+          Object.defineProperty(window, 'fetch', {
+            configurable: true,
+            enumerable: true,
+            get: function() {
+              return _fetch;
+            },
+            set: function(val) {
+              _fetch = val;
+            }
+          });
+          if (typeof Window !== 'undefined' && Window.prototype) {
+            try {
+              Object.defineProperty(Window.prototype, 'fetch', {
+                configurable: true,
+                enumerable: true,
+                get: function() {
+                  return _fetch;
+                },
+                set: function(val) {
+                  _fetch = val;
+                }
+              });
+            } catch (err) {}
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <title>StudyForge Agents - Multi-Agent AI Study Assistant</title>
+    <meta name="description" content="A multi-agent AI study assistant for college students powered by Gemini: Reader, Quiz, Tutor, and Planner agents working in a visible pipeline." />
+    <meta property="og:title" content="StudyForge Agents - Multi-Agent AI Study Assistant" />
+    <meta property="og:description" content="A multi-agent AI study assistant for college students powered by Gemini: Reader, Quiz, Tutor, and Planner agents working in a visible pipeline." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

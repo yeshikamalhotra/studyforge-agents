@@ -1,0 +1,6 @@
+{
+  "name": "StudyForge Agents",
+  "description": "Multi-agent AI study assistant for college students powered by Gemini: Reader, Quiz, Tutor, and Planner agents working in a visible pipeline with Search Grounding and Code Execution.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
