@@ -30,6 +30,23 @@ import {
   Code2,
 } from 'lucide-react';
 
+function cleanErrorMessage(err: any): string {
+  const msg = err?.message || String(err || 'An error occurred.');
+  try {
+    const parsed = JSON.parse(msg);
+    if (parsed.error?.message) {
+      if (parsed.error.code === 503 || parsed.error.message.includes('high demand') || parsed.error.status === 'UNAVAILABLE') {
+        return 'The Gemini model is temporarily experiencing high demand. Please retry in a few moments.';
+      }
+      return parsed.error.message;
+    }
+  } catch {}
+  if (msg.includes('503') || msg.includes('high demand') || msg.includes('UNAVAILABLE')) {
+    return 'The Gemini model is temporarily experiencing high demand. Please retry in a few moments.';
+  }
+  return msg;
+}
+
 export default function App() {
   // Theme state
   const [darkMode, setDarkMode] = useState<boolean>(() => {
@@ -179,7 +196,7 @@ export default function App() {
       setAgentStatuses((prev) => ({ ...prev, reader: 'error' }));
       setActiveAgent(null);
       setIsPipelineLoading(false);
-      setErrorMessage(err.message || 'Reader Agent failed.');
+      setErrorMessage(cleanErrorMessage(err));
       return;
     }
 
@@ -243,7 +260,7 @@ export default function App() {
       setAgentStatuses((prev) => ({ ...prev, quiz: 'error' }));
       setActiveAgent(null);
       setIsPipelineLoading(false);
-      setErrorMessage(err.message || 'Quiz Agent encountered an issue.');
+      setErrorMessage(cleanErrorMessage(err));
     }
   };
 
